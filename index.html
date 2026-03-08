@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uma surpresa para a Letícia!</title>
+
+<style>
+body, html{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background-color:#000;
+    font-family: Arial, sans-serif;
+}
+
+/* IMAGEM DE FUNDO */
+.background-image{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+    background-image:url("./ImageTeste1.jpeg");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+
+    filter:blur(3px) brightness(0.8);
+    z-index:0;
+}
+
+.container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    width:100%;
+    z-index:10;
+}
+
+.texto-principal, .texto-secundario{
+    font-size:4rem;
+    font-weight:bold;
+    color:#fff;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,255,255,0.5);
+
+    animation:glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+    from{
+        text-shadow:
+            0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 30px #f0f;
+    }
+
+    to{
+        text-shadow:
+            0 0 20px #fff,
+            0 0 30px #0ff,
+            0 0 40px #0ff;
+    }
+}
+
+/* Fogos */
+.firework{
+    position:absolute;
+    width:5px;
+    height:5px;
+    background:transparent;
+    border-radius:50%;
+    opacity:0;
+    z-index:5;
+}
+
+@keyframes explode{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(30);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background-image"></div>
+
+<div class="container">
+<h1 class="texto-principal">🎉A LETÍCIA É 10🧨</h1>
+<h1 class="texto-secundario">Feliz dia da Mulher!!</h1>
+</div>
+
+<div id="fireworks-container"></div>
+
+<script>
+
+function createFirework(){
+
+    const container=document.getElementById("fireworks-container");
+
+    const firework=document.createElement("div");
+    firework.classList.add("firework");
+
+    const x=Math.random()*window.innerWidth;
+    const y=Math.random()*(window.innerHeight*0.6);
+
+    const color=`hsl(${Math.random()*360},100%,50%)`;
+
+    firework.style.left=x+"px";
+    firework.style.top=y+"px";
+
+    firework.style.boxShadow=
+    `0 0 10px 2px ${color},
+     0 0 20px 4px ${color}`;
+
+    firework.style.animation=`explode ${1+Math.random()}s ease-out forwards`;
+
+    container.appendChild(firework);
+
+    setTimeout(()=>{
+        firework.remove();
+    },2000);
+}
+
+setInterval(createFirework,500);
+
+for(let i=0;i<5;i++){
+    setTimeout(createFirework,i*100);
+}
+
+</script>
+
+</body>
+</html>
